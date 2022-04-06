@@ -65,11 +65,11 @@ int main() {
   auto device = fw.device();
 
   vku::Window window{
-    .instance = fw.instance(),
-    .device = device,
-    .physicalDevice = fw.physicalDevice(),
-    .graphicsQueueFamilyIndex = fw.graphicsQueueFamilyIndex(),
-    .window = glfwwindow
+    fw.instance(),
+    device,
+    fw.physicalDevice(),
+    fw.graphicsQueueFamilyIndex(),
+    glfwwindow
   };
   if (!window.ok()) {
     std::cout << "Window creation failed" << std::endl;
@@ -86,12 +86,12 @@ int main() {
   // flip viewport to match opengl ( +x > Right, +y ^ UP, +z towards viewer from screen ), instead of vulkan default
   // also requires pipeline set with cullMode:BACK and frontFace:CounterClockWise
   auto viewport = vk::Viewport{
-    .x = 0.0f,                                     //Vulkan default:0
-    .y = static_cast<float>(window.height()),      //Vulkan default:0
-    .width = static_cast<float>(window.width()),   //Vulkan default:width
-    .height = -static_cast<float>(window.height()),//Vulkan default:height
-    .minDepth = 0.5f,                              //Vulkan default:0
-    .maxDepth = 1.0f                               //Vulkan default:1
+    0.0f,                                     //Vulkan default:0
+    static_cast<float>(window.height()),      //Vulkan default:0
+    static_cast<float>(window.width()),   //Vulkan default:width
+    static_cast<float>(window.height()),//Vulkan default:height
+    0.5f,                              //Vulkan default:0
+    1.0f                               //Vulkan default:1
   };
 
   ////////////////////////////////////////
@@ -579,11 +579,11 @@ int main() {
   
     // Begin rendering using the framebuffer and renderpass
     displacementRpbi = vk::RenderPassBeginInfo {
-      .renderPass = *displacementRenderPass,
-      .framebuffer = *displacementFrameBuffer,
-      .renderArea = vk::Rect2D{{0, 0}, {window.width(), window.height()}},
-      .clearValueCount = (uint32_t) clearColours.size(),
-      .pClearValues = clearColours.data()
+      *displacementRenderPass,
+      *displacementFrameBuffer,
+      vk::Rect2D{{0, 0}, {window.width(), window.height()}},
+      (uint32_t) clearColours.size(),
+      clearColours.data()
     };
   
     // Build the renderpass 
@@ -610,11 +610,11 @@ int main() {
   
     // Begin rendering using the framebuffer and renderpass
     maskRpbi = vk::RenderPassBeginInfo{
-      .renderPass = *maskRenderPass,
-      .framebuffer = *maskFrameBuffer,
-      .renderArea = vk::Rect2D{{0, 0}, {window.width(), window.height()}},
-      .clearValueCount = (uint32_t) clearColoursMask.size(),
-      .pClearValues = clearColoursMask.data()
+      *maskRenderPass,
+      *maskFrameBuffer,
+      vk::Rect2D{{0, 0}, {window.width(), window.height()}},
+      (uint32_t) clearColoursMask.size(),
+      clearColoursMask.data()
     };
   }
 
@@ -747,11 +747,11 @@ int main() {
   
     // Begin rendering using the framebuffer and renderpass
     contentRpbi = vk::RenderPassBeginInfo{
-      .renderPass = *contentRenderPass,
-      .framebuffer = *contentFrameBuffer,
-      .renderArea = vk::Rect2D{{0, 0}, {window.width(), window.height()}},
-      .clearValueCount = (uint32_t) clearColourscontent.size(),
-      .pClearValues = clearColourscontent.data()
+      *contentRenderPass,
+      *contentFrameBuffer,
+      vk::Rect2D{{0, 0}, {window.width(), window.height()}},
+      (uint32_t) clearColourscontent.size(),
+      clearColourscontent.data()
     };
   }
 
@@ -956,11 +956,11 @@ int main() {
   
     // Begin rendering using the framebuffer and renderpass
     reflectionreflectorRpbi = vk::RenderPassBeginInfo{
-      .renderPass = *reflectionreflectorRenderPass,
-      .framebuffer = *reflectionreflectorFrameBuffer,
-      .renderArea = vk::Rect2D{{0, 0}, {window.width(), window.height()}},
-      .clearValueCount = (uint32_t) clearColoursreflectionreflector.size(),
-      .pClearValues = clearColoursreflectionreflector.data()
+      *reflectionreflectorRenderPass,
+      *reflectionreflectorFrameBuffer,
+      vk::Rect2D{{0, 0}, {window.width(), window.height()}},
+      (uint32_t) clearColoursreflectionreflector.size(),
+      clearColoursreflectionreflector.data()
     };
   }
 /*
@@ -1083,7 +1083,7 @@ int main() {
 
   Uniform_vert uniform_vert {
     .projection = clip * glm::perspective(
-      glm::radians(30.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)
+      glm::radians(30.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90ï¿½ (extra wide) and 30ï¿½ (quite zoomed in)
       float(window.width())/window.height(), // Aspect Ratio. Depends on the size of your window. Notice that 4/3 == 800/600 == 1280/960, sounds familiar ?
       0.1f,                // Near clipping plane. Keep as big as possible, or you'll get precision issues.
       10.0f),              // Far clipping plane. Keep as little as possible.
@@ -1096,7 +1096,7 @@ int main() {
 
   Uniform_vert uniformContent_vert {
     .projection = clip * glm::perspective(
-      glm::radians(30.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)
+      glm::radians(30.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90ï¿½ (extra wide) and 30ï¿½ (quite zoomed in)
       float(window.width())/window.height(), // Aspect Ratio. Depends on the size of your window. Notice that 4/3 == 800/600 == 1280/960, sounds familiar ?
       0.1f,                // Near clipping plane. Keep as big as possible, or you'll get precision issues.
       10.0f),              // Far clipping plane. Keep as little as possible.

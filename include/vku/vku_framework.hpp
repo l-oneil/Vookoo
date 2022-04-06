@@ -108,7 +108,7 @@ public:
     vku::DeviceMaker dm{};
     dm.defaultLayers();
     dm.queue(graphicsQueueFamilyIndex_);
-    dm.extension(VK_KHR_MULTIVIEW_EXTENSION_NAME); // added for multiview extension
+    //dm.extension(VK_KHR_MULTIVIEW_EXTENSION_NAME); // added for multiview extension
     if (computeQueueFamilyIndex_ != graphicsQueueFamilyIndex_) dm.queue(computeQueueFamilyIndex_);
     device_ = dm.createUnique(physical_device_);
 

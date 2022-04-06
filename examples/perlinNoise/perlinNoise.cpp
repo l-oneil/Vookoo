@@ -246,12 +246,12 @@ int main() {
   // flip viewport to match opengl ( +x > Right, +y ^ UP, +z towards viewer from screen ), instead of vulkan default
   // also requires pipeline set with cullMode:BACK and frontFace:CounterClockWise
   auto viewport = vk::Viewport{
-    .x = 0.0f,                                     //Vulkan default:0
-    .y = static_cast<float>(window.height()),      //Vulkan default:0
-    .width = static_cast<float>(window.width()),   //Vulkan default:width
-    .height = -static_cast<float>(window.height()),//Vulkan default:height
-    .minDepth = 0.5f,                              //Vulkan default:0
-    .maxDepth = 1.0f                               //Vulkan default:1
+    0.0f,                                     //Vulkan default:0
+    static_cast<float>(window.height()),      //Vulkan default:0
+    static_cast<float>(window.width()),   //Vulkan default:width
+    static_cast<float>(window.height()),//Vulkan default:height
+    0.5f,                              //Vulkan default:0
+    1.0f                               //Vulkan default:1
   };
 
   auto buildPipeline = [&]() {
@@ -313,7 +313,7 @@ int main() {
 
   Uniform uniform {
     .projection = /*invertYhalfZclipspace * */glm::perspective(
-      glm::radians(30.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90° (extra wide) and 30° (quite zoomed in)
+      glm::radians(30.0f), // The vertical Field of View, in radians: the amount of "zoom". Think "camera lens". Usually between 90ï¿½ (extra wide) and 30ï¿½ (quite zoomed in)
       float(window.width())/window.height(), // Aspect Ratio. Depends on the size of your window. Notice that 4/3 == 800/600 == 1280/960, sounds familiar ?
       0.1f,                // Near clipping plane. Keep as big as possible, or you'll get precision issues.
       10.0f),              // Far clipping plane. Keep as little as possible.

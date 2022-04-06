@@ -297,6 +297,7 @@ inline BlockParams getBlockParams(vk::Format format) {
     case vk::Format::ePvrtc14BppSrgbBlockIMG: return BlockParams{0, 0, 0};
     case vk::Format::ePvrtc22BppSrgbBlockIMG: return BlockParams{0, 0, 0};
     case vk::Format::ePvrtc24BppSrgbBlockIMG: return BlockParams{0, 0, 0};
+    default: return BlockParams{0, 0, 0};
   }
   return BlockParams{0, 0, 0};
 }
@@ -437,13 +438,13 @@ public:
 
     //
     vk::PhysicalDeviceFeatures pdfs;
-    pdfs.setGeometryShader(true); // required to enable and use geometry shader
-    pdfs.setTessellationShader(true); // required to enable and use tesselation shaders
+    // pdfs.setGeometryShader(true); // required to enable and use geometry shader
+    // pdfs.setTessellationShader(true); // required to enable and use tesselation shaders
     dci.setPEnabledFeatures(&pdfs);
 
     // required to enable and use multiview
     vk::PhysicalDeviceMultiviewFeatures physicalDeviceMultiviewFeatures;
-    physicalDeviceMultiviewFeatures.setMultiview(true);
+    // physicalDeviceMultiviewFeatures.setMultiview(true);
     dci.pNext = &physicalDeviceMultiviewFeatures;
 
     return physical_device.createDeviceUnique(dci);
@@ -1701,6 +1702,7 @@ public:
       case il::eTransferDstOptimal: srcMask = afb::eTransferWrite; srcStageMask=vk::PipelineStageFlagBits::eTransfer; break;
       case il::ePreinitialized: srcMask = afb::eTransferWrite|afb::eHostWrite; srcStageMask=vk::PipelineStageFlagBits::eTransfer|vk::PipelineStageFlagBits::eHost; break;
       case il::ePresentSrcKHR: srcMask = afb::eMemoryRead; break;
+      default: break;
     }
 
     switch (newLayout) {
@@ -1714,6 +1716,7 @@ public:
       case il::eTransferDstOptimal: dstMask = afb::eTransferWrite; dstStageMask=vk::PipelineStageFlagBits::eTransfer; break;
       case il::ePreinitialized: dstMask = afb::eTransferWrite; dstStageMask=vk::PipelineStageFlagBits::eTransfer; break;
       case il::ePresentSrcKHR: dstMask = afb::eMemoryRead; break;
+      default: break;
     }
 //printf("%08x %08x\n", (VkFlags)srcMask, (VkFlags)dstMask);
 
