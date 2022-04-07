@@ -29,7 +29,7 @@ void main() {
     // But here, in Vulkan origin 0,0 is UPPER-left corner so 
     // the transform maps from GL(x,y) to VULKAN(x,iResolution.y-y).
     // Note, viewport, cullMode, and FrontFace do not change this gl_FragCoord.
-    // Vulkan requires gl_FragCoord’s origin to be at the top left corner -- non-changeable
+    // Vulkan requires gl_FragCoordï¿½s origin to be at the top left corner -- non-changeable
     vec2 openGLFragCoord = vec2(gl_FragCoord.x, iResolution.y-gl_FragCoord.y);
     mainImage( outColour, openGLFragCoord );
 }
@@ -403,12 +403,12 @@ vec2 sdWheel(vec3 p) {
         float a = atan(wp.z, wp.y);
         float x = wp.x*20.;
         float tireTop = S(.29, .4, dist);
-        float thread = S(-.5, -.3, sin(a*40.+x*x))*.01 * tireTop;
+        float thr = S(-.5, -.3, sin(a*40.+x*x)) *.01 * tireTop;
         
-        thread *= S(.0, .007, abs(abs(wp.x)-.07+sin(a*20.)*.01));
-        thread *= S(.005, .01, abs(wp.x+sin(a*20.)*.03));
+        thr *= S(.0, .007, abs(abs(wp.x)-.07+sin(a*20.)*.01));
+        thr *= S(.005, .01, abs(wp.x+sin(a*20.)*.03));
         
-        w -= thread*2.;
+        w -= thr*2.;
         
         float e = length(wp-vec3(2, .1, 0))-.5;
         w = min(w, e);
